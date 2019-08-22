@@ -7,6 +7,11 @@ import "namespace.proto";
 import "module.proto";
 import "record.proto";
 
+// Reasoning for having JWT in the *Request message (instead of meta-data):
+// We're not using JWT as authentication token but as parameter that is passed
+// to script runner and used there for setting up the API clients
+//
+// Script runner does not authenticate requests and blindly trusts all clients
 service ScriptRunner {
     rpc Test(RunTestRequest) returns (RunTestResponse);
 	rpc Namespace (RunNamespaceRequest) returns (RunNamespaceResponse);
