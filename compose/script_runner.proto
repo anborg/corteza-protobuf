@@ -25,20 +25,23 @@ message RunTestRequest {
 }
 
 message RunNamespaceRequest {
-	string    JWT       = 1;
+	map<string, string> config = 1;
+
 	Script    script    = 2;
 	Namespace namespace = 3;
 }
 
 message RunModuleRequest {
-	string    JWT       = 1;
+	map<string, string> config = 1;
+
 	Script    script    = 2;
 	Namespace namespace = 3;
 	Module    module    = 4;
 }
 
 message RunRecordRequest {
-	string    JWT       = 1;
+	map<string, string> config = 1;
+
 	Script    script    = 2;
 	Namespace namespace = 3;
 	Module    module    = 4;
