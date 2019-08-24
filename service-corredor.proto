@@ -1,11 +1,10 @@
 syntax = "proto3";
 
-package compose;
-option go_package = "proto";
+package corredor;
 
-import "namespace.proto";
-import "module.proto";
-import "record.proto";
+import "compose/namespace.proto";
+import "compose/module.proto";
+import "compose/record.proto";
 
 // Reasoning for having JWT in the *Request message (instead of meta-data):
 // We're not using JWT as authentication token but as parameter that is passed
@@ -28,38 +27,42 @@ message RunNamespaceRequest {
 	map<string, string> config = 1;
 
 	Script    script    = 2;
-	Namespace namespace = 3;
+
+	compose.Namespace namespace = 3;
 }
 
 message RunModuleRequest {
 	map<string, string> config = 1;
 
 	Script    script    = 2;
-	Namespace namespace = 3;
-	Module    module    = 4;
+
+	compose.Namespace namespace = 3;
+	compose.Module    module    = 4;
+
 }
 
 message RunRecordRequest {
 	map<string, string> config = 1;
 
 	Script    script    = 2;
-	Namespace namespace = 3;
-	Module    module    = 4;
-	Record    record    = 5;
+
+	compose.Namespace namespace = 3;
+	compose.Module    module    = 4;
+	compose.Record    record    = 5;
 }
 
 message RunTestResponse {}
 
 message RunNamespaceResponse {
-	Namespace namespace  = 1;
+	compose.Namespace namespace  = 1;
 }
 
 message RunModuleResponse {
-	Module module = 1;
+	compose.Module module = 1;
 }
 
 message RunRecordResponse {
-	Record record = 1;
+	compose.Record record = 1;
 }
 
 message Script {
