@@ -5,6 +5,7 @@ package corredor;
 import "compose/namespace.proto";
 import "compose/module.proto";
 import "compose/record.proto";
+import "system/mail_message.proto";
 
 // Reasoning for having JWT in the *Request message (instead of meta-data):
 // We're not using JWT as authentication token but as parameter that is passed
@@ -16,6 +17,8 @@ service ScriptRunner {
 	rpc Namespace (RunNamespaceRequest) returns (RunNamespaceResponse);
 	rpc Module (RunModuleRequest) returns (RunModuleResponse);
 	rpc Record (RunRecordRequest) returns (RunRecordResponse);
+
+	rpc MailMessage (RunMailMessageRequest) returns (RunMailMessageResponse);
 }
 
 message RunTestRequest {
@@ -51,6 +54,14 @@ message RunRecordRequest {
 	compose.Record    record    = 5;
 }
 
+message RunMailMessageRequest {
+	map<string, string> config = 1;
+
+	Script    script    = 2;
+
+	system.MailMessage mailMessage = 3;
+}
+
 message RunTestResponse {}
 
 message RunNamespaceResponse {
@@ -64,6 +75,8 @@ message RunModuleResponse {
 message RunRecordResponse {
 	compose.Record record = 1;
 }
+
+message RunMailMessageResponse {}
 
 message Script {
     string  source  = 1;
