@@ -4,23 +4,23 @@ package system;
 option go_package = "proto";
 
 service Users {
-    rpc MakeJWT(MakeJWTRequest) returns (MakeJWTResponse);
-    rpc FindByID(FindByIDRequest) returns (FindByIDResponse);
+    rpc MakeJWT(MakeJWTUserRequest) returns (MakeJWTUserResponse);
+    rpc FindByID(FindByIDUserRequest) returns (FindByIDUserResponse);
 }
 
-message MakeJWTRequest {
+message MakeJWTUserRequest {
 	uint64    userID    = 1;
 }
 
-message MakeJWTResponse {
+message MakeJWTUserResponse {
 	string    JWT       = 1;
 }
 
-message FindByIDRequest {
+message FindByIDUserRequest {
 	uint64    userID    = 1;
 }
 
-message FindByIDResponse {
+message FindByIDUserResponse {
 	User      user      = 1;
 }
 
