@@ -21,4 +21,9 @@ message ModuleField {
 	uint64 fieldID = 1;
 	string name    = 2;
 	string kind    = 3;
+
+	bool   isMulti    = 4;
+	bool   isPrivate  = 5;
+	bool   isVisible  = 6;
+	bool   isRequired = 7;
 }
