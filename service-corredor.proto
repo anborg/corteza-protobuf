@@ -2,86 +2,125 @@ syntax = "proto3";
 
 package corredor;
 
-import "compose/namespace.proto";
-import "compose/module.proto";
-import "compose/record.proto";
-import "system/mail_message.proto";
+// Executing and listing server-scripts
+service ServerScripts {
+	// Executes server script
+	rpc Exec(ExecRequest) returns (ExecResponse);
 
-// Reasoning for having JWT in the *Request message (instead of meta-data):
-// We're not using JWT as authentication token but as parameter that is passed
-// to script runner and used there for setting up the API clients
-//
-// Script runner does not authenticate requests and blindly trusts all clients
-service ScriptRunner {
-    rpc Test(RunTestRequest) returns (RunTestResponse);
-	rpc Namespace (RunNamespaceRequest) returns (RunNamespaceResponse);
-	rpc Module (RunModuleRequest) returns (RunModuleResponse);
-	rpc Record (RunRecordRequest) returns (RunRecordResponse);
-
-	rpc MailMessage (RunMailMessageRequest) returns (RunMailMessageResponse);
+	// List of server scripts
+	rpc List(ServerScriptListRequest) returns (ServerScriptListResponse);
 }
 
-message RunTestRequest {
-	string source = 1;
-	string name   = 2;
+// Executing and listing client-scripts
+service ClientScripts {
+	// Bundles
+	rpc Bundle (BundleRequest) returns (BundleResponse);
+
+	// List of client scripts
+	rpc List(ClientScriptListRequest) returns (ClientScriptListResponse);
 }
 
-message RunNamespaceRequest {
-	map<string, string> config = 1;
-
-	Script    script    = 2;
-
-	compose.Namespace namespace = 3;
+service Storage {
+	// rpc List(path) returns (list of dirs/files);
+	// rpc Store(path, content) returns (bool);
+	// rpc Delete(path, content) returns (bool);
+	// rpc Get(path) returns (file);
 }
 
-message RunModuleRequest {
-	map<string, string> config = 1;
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-	Script    script    = 2;
+message ExecRequest {
+	string name              = 1;
+	map<string, string> args = 2;
+}
 
-	compose.Namespace namespace = 3;
-	compose.Module    module    = 4;
+message ExecResponse {
+	map<string, string> result = 2;
+}
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+message ServerScriptListRequest {
+	// query by name, label, description
+	string query = 1;
+
+	// filter by resource - exact match
+	string resource = 2;
+
+	// filter by events - script must contain all specified events
+	repeated string events = 3;
+}
+
+message ServerScriptListResponse {
+	repeated ServerScript scripts = 1;
+}
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+message ClientScriptListRequest {
+	// query by name, label, description
+	string query = 1;
+
+	// filter by resource - exact match
+	string resource = 2;
+
+	// filter by events - script must contain all specified events
+	repeated string events = 3;
+
+	// filter by bundle - exact match
+	string bundle = 4;
 
 }
 
-message RunRecordRequest {
-	map<string, string> config = 1;
-
-	Script    script    = 2;
-
-	compose.Namespace namespace = 3;
-	compose.Module    module    = 4;
-	compose.Record    record    = 5;
+message ClientScriptListResponse {
+	repeated ClientScript scripts = 1;
 }
 
-message RunMailMessageRequest {
-	map<string, string> config = 1;
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-	Script    script    = 2;
-
-	system.MailMessage mailMessage = 3;
+message BundleRequest {
+	string name = 1;
 }
 
-message RunTestResponse {}
-
-message RunNamespaceResponse {
-	compose.Namespace namespace  = 1;
+message BundleResponse {
+	repeated Bundle bundles = 1;
 }
 
-message RunModuleResponse {
-	compose.Module module = 1;
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+message ServerScript {
+	         string  name        =  1;
+	         string  label       =  2;
+	         string  description =  3;
+    repeated Trigger triggers    = 14;
+	repeated string  errors      = 15;
 }
 
-message RunRecordResponse {
-	compose.Record record = 1;
+message ClientScript {
+	         string  name        =  1;
+	         string  label       =  2;
+	         string  description =  3;
+	         string  bundle      =  4;
+	         string  type        =  6;
+    repeated Trigger triggers    = 14;
+	repeated string  errors      = 15;
 }
 
-message RunMailMessageResponse {}
-
-message Script {
-    string  source  = 1;
-    string  name    = 2;
-    uint32  timeout = 3; // milliseconds
-    bool    async   = 4;
+message Trigger {
+	repeated string      events      = 1;
+	repeated string      resources   = 2;
+	         string      runAs       = 3;
+	repeated TConstraint constraints = 4;
 }
 
+message TConstraint {
+	         string name  = 1;
+	         string op    = 2;
+	repeated string value = 3;
+}
+
+message Bundle {
+	string name = 1;
+	string type = 2;
+	string code = 3;
+}
