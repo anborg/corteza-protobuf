@@ -45,10 +45,10 @@ message ServerScriptListRequest {
 	string query = 1;
 
 	// filter by resource - exact match
-	string resource = 2;
+	string resourceType = 2;
 
 	// filter by events - script must contain all specified events
-	repeated string events = 3;
+	repeated string eventTypes = 3;
 }
 
 message ServerScriptListResponse {
@@ -62,10 +62,10 @@ message ClientScriptListRequest {
 	string query = 1;
 
 	// filter by resource - exact match
-	string resource = 2;
+	string resourceType = 2;
 
 	// filter by events - script must contain all specified events
-	repeated string events = 3;
+	repeated string eventTypes = 3;
 
 	// filter by bundle - exact match
 	string bundle = 4;
@@ -107,16 +107,21 @@ message ClientScript {
 }
 
 message Trigger {
-	repeated string      events      = 1;
-	repeated string      resources   = 2;
-	         string      runAs       = 3;
-	repeated TConstraint constraints = 4;
+	repeated string      eventTypes    = 1;
+	repeated string      resourceTypes = 2;
+	         string      runAs         = 3;
+	repeated TConstraint constraints   = 4;
 }
 
 message TConstraint {
 	         string name  = 1;
 	         string op    = 2;
 	repeated string value = 3;
+}
+
+message TUIOption {
+    string name  = 1;
+    string value = 2;
 }
 
 message Bundle {
