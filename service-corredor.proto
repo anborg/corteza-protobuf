@@ -92,6 +92,7 @@ message ServerScript {
 	         string  name        =  1;
 	         string  label       =  2;
 	         string  description =  3;
+	       Security  security    = 13;
     repeated Trigger triggers    = 14;
 	repeated string  errors      = 15;
 }
@@ -102,15 +103,21 @@ message ClientScript {
 	         string  description =  3;
 	         string  bundle      =  4;
 	         string  type        =  6;
+	       Security  security    = 13;
     repeated Trigger triggers    = 14;
 	repeated string  errors      = 15;
 }
 
+message Security {
+	         string  runAs =  1;
+	repeated string  deny  =  2;
+	repeated string  allow =  3;
+}
+
 message Trigger {
-	repeated string      eventTypes    = 1;
-	repeated string      resourceTypes = 2;
-	         string      runAs         = 3;
-	repeated TConstraint constraints   = 4;
+	repeated string      eventTypes    =  1;
+	repeated string      resourceTypes =  2;
+	repeated TConstraint constraints   = 15;
 }
 
 message TConstraint {
