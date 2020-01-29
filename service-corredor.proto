@@ -117,6 +117,7 @@ message Security {
 message Trigger {
 	repeated string      eventTypes    =  1;
 	repeated string      resourceTypes =  2;
+	repeated TUIProp     uiProps       = 14;
 	repeated TConstraint constraints   = 15;
 }
 
@@ -126,7 +127,7 @@ message TConstraint {
 	repeated string value = 3;
 }
 
-message TUIOption {
+message TUIProp {
     string name  = 1;
     string value = 2;
 }
