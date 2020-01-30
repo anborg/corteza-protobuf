@@ -69,7 +69,6 @@ message ClientScriptListRequest {
 
 	// filter by bundle - exact match
 	string bundle = 4;
-
 }
 
 message ClientScriptListResponse {
@@ -92,6 +91,7 @@ message ServerScript {
 	         string  name        =  1;
 	         string  label       =  2;
 	         string  description =  3;
+	         string  updatedAt   = 12;
 	       Security  security    = 13;
     repeated Trigger triggers    = 14;
 	repeated string  errors      = 15;
@@ -103,6 +103,7 @@ message ClientScript {
 	         string  description =  3;
 	         string  bundle      =  4;
 	         string  type        =  6;
+	         string  updatedAt   = 12;
 	       Security  security    = 13;
     repeated Trigger triggers    = 14;
 	repeated string  errors      = 15;
