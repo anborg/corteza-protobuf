@@ -94,6 +94,7 @@ message ServerScript {
 	         string  updatedAt   = 12;
 	       Security  security    = 13;
     repeated Trigger triggers    = 14;
+            Iterator iterator    = 11;
 	repeated string  errors      = 15;
 }
 
@@ -120,6 +121,15 @@ message Trigger {
 	repeated string      resourceTypes =  2;
 	repeated TUIProp     uiProps       = 14;
 	repeated TConstraint constraints   = 15;
+}
+
+message Iterator {
+	         string      eventType     =  1;
+	         string      resourceType  =  2;
+	repeated string      deferred      =  3;
+	 map<string, string> filter        =  4;
+			 string      action        =  5;
+	repeated TUIProp     uiProps       = 14;
 }
 
 message TConstraint {
